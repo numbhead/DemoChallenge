@@ -8,7 +8,7 @@ jobs:
   getTag:
     runs-on: ubuntu-latest
     outputs:
-      new_version_number: ${{ steps.get_tag.outputs.new_ver }}
+      new_version_number: ${{ steps.setOutput.outputs.new_ver }}
     steps:
     - id: tagCheckout
       uses: actions/checkout@v2
