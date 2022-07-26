@@ -24,7 +24,7 @@ jobs:
     - id: setOutput
       run: echo "::set-output name=new_ver::${{ steps.get_tag.outputs.new_tag }}"
         
-  build:
+  buildAndPackage:
     needs: getTag
     runs-on: ubuntu-latest
     permissions:
@@ -48,7 +48,7 @@ jobs:
 
   
   release:
-    needs: [getTag, build]
+    needs: [getTag, buildAndPackage]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -61,7 +61,7 @@ jobs:
 
 
   setTag:
-    needs: [getTag, build, release]
+    needs: [getTag, buildAndPackage, release]
     runs-on: ubuntu-latest
     steps:
     - id: set_tag
