@@ -27,6 +27,9 @@ jobs:
   build:
     needs: getTag
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -37,6 +40,11 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean package versions:set -DnewVersion=${{needs.getTag.outputs.new_version_number}}
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+
 
   
   release:
